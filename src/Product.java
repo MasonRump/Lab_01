@@ -36,6 +36,14 @@ public class Product {
         return String.format("%s - %s: %s ($%.2f)", id, name, desc, cost);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Product product = (Product) obj;
+        return id.equals(product.id);
+    }
+
     public String toCSV() {
         return String.format("%s,%s,%s,%.2f", id, name, desc, cost);
     }
