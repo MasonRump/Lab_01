@@ -10,9 +10,7 @@ import java.util.Scanner;
 public class ProductWriter {
     static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        ArrayList<String> products = new ArrayList<>();
-
-        System.out.println("Product Writer");
+        ArrayList<Product> products = new ArrayList<>();
         boolean more = true;
 
         while (more) {
@@ -21,7 +19,9 @@ public class ProductWriter {
             String desc = SafeInput.getNonZeroLenString(sc, "Enter Product Description");
             double cost = SafeInput.getDouble(sc, "Enter Product Cost");
 
-            products.add(String.format("%s,%s,%s,%.2f", id, name, desc, cost));
+            Product p = new Product(id, name, desc, cost);
+            products.add(p);
+
             more = SafeInput.getYNConfirm(sc, "Do you want to add another product?");
         }
 
@@ -29,8 +29,8 @@ public class ProductWriter {
         Path file = Path.of(filename);
 
         try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(Files.newOutputStream(file))))) {
-            for (String rec : products) {
-                writer.write(rec);
+            for (Product p : products) {
+                writer.write(p.toCSV());
                 writer.newLine();
             }
             System.out.println("Product data saved to " + filename);

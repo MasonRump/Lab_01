@@ -14,13 +14,27 @@ public class PersonReader {
 
         if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             Path file = chooser.getSelectedFile().toPath();
-            ArrayList<String> lines = new ArrayList<>();
+            ArrayList<Person> people = new ArrayList<>();
 
             try (InputStream in = new BufferedInputStream(Files.newInputStream(file));
                  BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 
-                while (reader.ready()) {
-                    lines.add(reader.readLine());
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] f = line.split(",");
+
+                    if (f.length == 5) {
+                        Person p = new Person(
+                                f[0].trim(),   // ID
+                                f[1].trim(),   // First name
+                                f[2].trim(),   // Last name
+                                f[3].trim(),   // Title
+                                Integer.parseInt(f[4].trim()) // YOB
+                        );
+                        people.add(p);
+                    } else {
+                        System.out.println("Error record: " + line);
+                    }
                 }
 
                 System.out.printf("%-8s %-15s %-15s %-6s %-5s%n", "ID#", "Firstname", "Lastname", "Title", "YOB");
@@ -28,15 +42,16 @@ public class PersonReader {
                 ;
 
 
-                for (String line : lines) {
-                    String[] f = line.split(",");
-                    if (f.length == 5) {
-                    System.out.printf("%-8s %-15s %-15s %-6s %-5s%n"
-                            , f[0].trim(), f[1].trim(), f[2].trim(), f[3].trim(), f[4].trim());
-                } else {
-                    System.out.println("Error record: " + line); } }
+                for (Person p : people) {
+                    System.out.printf("%-8s %-15s %-15s %-6s %-5d%n",
+                            p.getID(),
+                            p.getFirstName(),
+                            p.getLastName(),
+                            p.getTitle(),
+                            p.getYearOfBirth());
+                }
 
-                    } catch (Exception e)
+            } catch (Exception e)
                         { e.printStackTrace(); }
 
                 } else {

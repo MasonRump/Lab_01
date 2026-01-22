@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class PersonGenerator {
     static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        ArrayList<String> people = new ArrayList<>();
+        ArrayList<Person> people = new ArrayList<>();
 
         System.out.println("Person Generator");
         boolean more = true;
@@ -25,7 +25,7 @@ public class PersonGenerator {
             int yearOfBirth = SafeInput.getInt(sc, "Enter Year of Birth");
 
             String record = String.format("%s,%s,%s,%s,%d", id, firstName, lastName, title, yearOfBirth);
-            people.add(record);
+            people.add(new Person(id, firstName, lastName, title, yearOfBirth));
 
             more = SafeInput.getYNConfirm(sc, "Do you want to add another person?");
         }
@@ -35,8 +35,8 @@ public class PersonGenerator {
 
 
         try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new BufferedOutputStream(Files.newOutputStream(file))))) {
-            for (String rec : people) {
-                writer.write(rec);
+            for (Person person : people) {
+                writer.write(person.toCSV());
                 writer.newLine();
 
             }
