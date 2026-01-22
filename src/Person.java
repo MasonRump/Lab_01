@@ -40,10 +40,10 @@ public class Person {
         this.title = title; }
 
     public void setYearOfBirth(int yearOfBirth) {
-        if (yearOfBirth >= 1900 && yearOfBirth <= 2025) {
+        if (yearOfBirth >= 1000 && yearOfBirth <= 9999) {
         this.yearOfBirth = yearOfBirth;
         } else {
-            throw new IllegalArgumentException("Year of birth must be between 1900 and 2025."); }
+            throw new IllegalArgumentException("Year of birth must be between 1000 and 9999."); }
     }
 
     //Methods
@@ -87,5 +87,5 @@ public class Person {
     @Override
     public int hashCode() {
         return Objects.hash(id); }
-    
+
 }
